@@ -1,4 +1,4 @@
-import { Meditation } from '../src/types';
+import { Meditation } from './types';
 
 export const meditations: Meditation[] = [
   {

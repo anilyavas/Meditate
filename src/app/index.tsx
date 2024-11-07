@@ -1,13 +1,12 @@
-import { StatusBar } from 'expo-status-bar';
-import { Text, View } from 'react-native';
+import { FlatList, Text, View } from 'react-native';
+import { meditations } from '../data';
+import MeditationListItem from '../components/MeditationListItem';
 
 export default function App() {
   return (
-    <View>
-      <Text className='font-bold text-4xl p-10 bg-red-500 color-blue-500'>
-        Home Screen
-      </Text>
-      <StatusBar style='auto' />
-    </View>
+    <FlatList
+      data={meditations}
+      renderItem={({ item }) => <MeditationListItem item={item} />}
+    />
   );
 }

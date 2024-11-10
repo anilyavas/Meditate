@@ -1,7 +1,7 @@
 import { Text, View, Pressable } from 'react-native';
 import { Meditation } from '@/types';
 import { FontAwesome, FontAwesome6 } from '@expo/vector-icons';
-import { Link, useLocalSearchParams } from 'expo-router';
+import { Link } from 'expo-router';
 
 export default function MeditationListItem({ item }: { item: Meditation }) {
   return (

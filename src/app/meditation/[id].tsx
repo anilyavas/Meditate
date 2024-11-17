@@ -9,10 +9,21 @@ import {
 } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Slider from '@react-native-community/slider';
+import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
+
+import audio from '../../../assets/meditations/audio1.mp3';
 
 export default function MeditationDetails() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const player = useAudioPlayer(audio);
+  const status = useAudioPlayerStatus(player);
   const meditation = meditations.find((m) => m.id === Number(id));
+
+  const formatSeconds = (milliseconds: number) => {
+    const minutes = Math.floor(milliseconds / 60000);
+    const seconds = Math.floor((milliseconds % 60000) / 1000);
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  };
 
   if (!meditation) {
     return <Text>Meditation not found</Text>;
@@ -41,8 +52,15 @@ export default function MeditationDetails() {
             {meditation?.title}
           </Text>
         </View>
-        <Pressable className='bg-zinc-800 self-center p-6 w-20 aspect-square rounded-full items-center'>
-          <FontAwesome6 name='play' size={24} color='snow' />
+        <Pressable
+          onPress={() => (player.playing ? player.pause() : player.play())}
+          className='bg-zinc-800 self-center p-6 w-20 aspect-square rounded-full items-center'
+        >
+          <FontAwesome6
+            name={status.playing ? 'pause' : 'play'}
+            size={24}
+            color='snow'
+          />
         </Pressable>
         <View className='flex-1'>
           {/* Footer */}
@@ -67,8 +85,8 @@ export default function MeditationDetails() {
               thumbTintColor='#3a3937'
             />
             <View className='flex-row justify-between'>
-              <Text>03:24</Text>
-              <Text>13:14</Text>
+              <Text>{formatSeconds(status.currentTime)}</Text>
+              <Text>{formatSeconds(status.duration)}</Text>
             </View>
           </View>
         </View>

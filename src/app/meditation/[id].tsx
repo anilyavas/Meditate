@@ -76,8 +76,10 @@ export default function MeditationDetails() {
             {/* Playback indicator */}
             <Slider
               style={{ width: '100%', height: 3 }}
-              value={0.5}
-              onSlidingComplete={(value) => console.log(value)}
+              value={status.currentTime / status.duration}
+              onSlidingComplete={(value) =>
+                player.seekTo(value * status.duration)
+              }
               minimumValue={0}
               maximumValue={1}
               minimumTrackTintColor='#3a3937'
